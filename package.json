@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "./src/server.js",
   "scripts": {
-    "start": "nodemon ./src/server.js"
+    "start": "nodemon ./src/server.js",
+    "generate-key": "node generateSecretKey.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +21,11 @@
     "nodemon": "^3.1.7"
   },
   "dependencies": {
+    "@google-cloud/firestore": "^7.10.0",
     "@hapi/hapi": "^21.3.12",
+    "@hapi/jwt": "^3.2.0",
+    "@tensorflow/tfjs-node": "^4.22.0",
+    "dotenv": "^16.4.5",
     "nanoid": "^3.3.7"
   }
 }

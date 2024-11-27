@@ -1,53 +1,34 @@
 const { nanoid } = require('nanoid');
-const firestore = require('./firestore');
+const firestore = require('./services/firestore');
 const Jwt = require('@hapi/jwt');
 
 const registerHandler = async (request, h) => {
-  const { username, password } = request.payload;
-
-  if (!username) {
-    const response = h.response({
-      status: 'fail',
-      message: 'Username sudah terdaftar!'
-    }).code(400);
-    return response;
-  }
-
-  if (!password) {
-    const response = h.response({
-      status: 'fail',
-      message: 'Password tidak boleh kosong!'
-    }).code(400);
-    return response;
-  }
-
-  const id = nanoid(16);
-  const createdAt = new Date().toISOString();
-  const updatedAt = createdAt;
-
-  const newUser = {
-    id,
-    username,
-    password,
-    createdAt,
-    updatedAt
-  };
-
   try {
-    await firestore.collection('users').doc(id).set(newUser);
+    const { username, password } = request.payload;
+
+    const userId = nanoid();
+
+    const userData = {
+      id: userId,
+      username,
+      password, // Todo: Hash
+      createdAt: new Date().toISOString()
+    };
+
+    await firestore.collection('users').doc(userId).set(userData);
 
     const response = h.response({
       status: 'success',
-      message: 'User berhasil ditambahkan',
+      message: 'User registered successfully',
       data: {
-        userId: id
+        userId
       }
     }).code(201);
     return response;
   } catch (error) {
     const response = h.response({
       status: 'fail',
-      message: 'Gagal menambahkan user'
+      message: error.message
     }).code(500);
     return response;
   }

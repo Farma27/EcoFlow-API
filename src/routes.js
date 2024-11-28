@@ -1,4 +1,4 @@
-const { registerHandler, getAllUsers, loginHandler, updateUserHandler, deleteUserHandler } = require('./handler');
+const { registerHandler, getAllUsers, loginHandler, updateUserHandler, deleteUserHandler } = require('./handler/userHandler');
 
 const routes = [
   {

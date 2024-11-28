@@ -1,17 +1,37 @@
 const { nanoid } = require('nanoid');
-const firestore = require('./services/firestore');
+const firestore = require('../services/firestore');
 const Jwt = require('@hapi/jwt');
+const bcrypt = require('bcrypt');
 
 const registerHandler = async (request, h) => {
   try {
     const { username, password } = request.payload;
 
+    if (!username || !password) {
+      const response = h.response({
+        status: 'fail',
+        message: 'Username or password are required!'
+      }).code(400);
+      return response;
+    }
+
+    const usersSnapshot = await firestore.collection('users').where('username', '==', username).get();
+    if (!usersSnapshot.empty) {
+      const response = h.response({
+        status: 'fail',
+        message: 'Username already exists!'
+      }).code(409);
+      return response;
+    }
+
     const userId = nanoid();
+
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const userData = {
       id: userId,
       username,
-      password, // Todo: Hash
+      password: hashedPassword, 
       createdAt: new Date().toISOString()
     };
 
@@ -19,7 +39,7 @@ const registerHandler = async (request, h) => {
 
     const response = h.response({
       status: 'success',
-      message: 'User registered successfully',
+      message: 'User registered successfully!',
       data: {
         userId
       }
@@ -71,7 +91,9 @@ const loginHandler = async (request, h) => {
 
     const user = usersSnapshot.docs[0].data();
 
-    if (user.password === password) {
+    const isValidPassword = await bcrypt.compare(password, user.password);
+
+    if (isValidPassword) {
       const token = Jwt.token.generate(
         {
           aud: 'urn:audience:test',
@@ -129,9 +151,11 @@ const updateUserHandler = async (request, h) => {
       return response;
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     await userRef.update({
       username,
-      password,
+      password: hashedPassword,
       updatedAt
     });
 

@@ -1,4 +1,11 @@
-const { registerHandler, getAllUsers, loginHandler, updateUserHandler, deleteUserHandler } = require('./handler/userHandler');
+const {
+  registerHandler,
+  getAllUsers,
+  loginHandler,
+  logoutHandler,
+  updateUserHandler,
+  deleteUserHandler
+} = require('./handler/userHandler');
 
 const routes = [
   {
@@ -21,6 +28,11 @@ const routes = [
       auth: false
     },
     handler: loginHandler
+  },
+  {
+    method: 'POST',
+    path: '/logout',
+    handler: logoutHandler
   },
   {
     method: 'PUT',

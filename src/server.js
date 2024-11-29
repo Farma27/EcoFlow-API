@@ -24,7 +24,7 @@ const init = async () => {
       sub: false,
       nbf: true,
       exp: true,
-      maxAgeSec: 14400, // 4 hours
+      maxAgeSec: 3600, // 1 hours
       timeSkewSec: 15
     },
     validate: (artifacts, request, h) => {
@@ -36,6 +36,14 @@ const init = async () => {
   });
 
   server.auth.default('jwt');
+
+  server.ext('onPreResponse', (request, h) => {
+    const response = request.response;
+    if (response.isBoom && response.output.statusCode === 401) {
+      response.output.payload.message = 'Anda harus Login terlebih dahulu!';
+    }
+    return h.continue;
+  });
 
   server.route(routes);
 

@@ -57,7 +57,11 @@ const registerHandler = async (request, h) => {
 const getAllUsers = async (request, h) => {
   try {
     const usersSnapshot = await firestore.collection('users').get();
-    const users = usersSnapshot.docs.map(doc => doc.data());
+    const users = usersSnapshot.docs.map(doc => {
+      const user = doc.data();
+      delete user.password; 
+      return user;
+    });
 
     const response = h.response({
       status: 'success',
@@ -99,7 +103,7 @@ const loginHandler = async (request, h) => {
           aud: 'urn:audience:test',
           iss: 'urn:issuer:test',
           sub: false,
-          maxAgeSec: 14400, // 4 hours
+          maxAgeSec: 3600, // 1 hour
           timeSkewSec: 15,
           user: {
             id: user.id,
@@ -132,6 +136,14 @@ const loginHandler = async (request, h) => {
     }).code(500);
     return response;
   }
+};
+
+const logoutHandler = async (request, h) => {
+  const response = h.response({
+    status: 'success',
+    message: 'Berhasil logout'
+  }).code(200);
+  return response;
 };
 
 const updateUserHandler = async (request, h) => {
@@ -204,4 +216,4 @@ const deleteUserHandler = async (request, h) => {
   }
 };
 
-module.exports = { registerHandler, getAllUsers, loginHandler, updateUserHandler, deleteUserHandler };
+module.exports = { registerHandler, getAllUsers, loginHandler, logoutHandler, updateUserHandler, deleteUserHandler };

@@ -1,7 +1,10 @@
 require('dotenv').config();
+
 const Hapi = require('@hapi/hapi');
-const routes = require('./routes');
 const Jwt = require('@hapi/jwt');
+const Inert = require('@hapi/inert');
+
+const routes = require('./routes');
 
 const init = async () => {
   const server = Hapi.server({
@@ -14,7 +17,7 @@ const init = async () => {
     }
   });
 
-  await server.register(Jwt);
+  await server.register([Jwt, Inert]);
 
   server.auth.strategy('jwt', 'jwt', {
     keys: process.env.JWT_SECRET_KEY, 
@@ -24,7 +27,7 @@ const init = async () => {
       sub: false,
       nbf: true,
       exp: true,
-      maxAgeSec: 3600, // 1 hours
+      maxAgeSec: 3600, // 1 hour
       timeSkewSec: 15
     },
     validate: (artifacts, request, h) => {

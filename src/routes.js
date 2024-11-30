@@ -6,6 +6,7 @@ const {
   updateUserHandler,
   deleteUserHandler
 } = require('./handler/userHandler');
+const { uploadImageHandler } = require('./handler/uploadHandler.js');
 
 const routes = [
   {
@@ -44,6 +45,20 @@ const routes = [
     path: '/users/{id}',
     handler: deleteUserHandler
   },
+  {
+    method: 'POST',
+    path: '/upload',
+    options: {
+      auth: false,
+      payload: {
+        output: 'stream',
+        parse: true,
+        allow: 'multipart/form-data',
+        multipart: true
+      }
+    },
+    handler: uploadImageHandler
+  }
 ];
 
 module.exports = routes;

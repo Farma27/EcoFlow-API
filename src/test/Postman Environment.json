@@ -3,6 +3,16 @@
   "name": "EcoFlow API Environment",
   "values": [
     {
+      "key": "url",
+      "value": "34.50.64.186",
+      "enabled": true
+    },
+    {
+      "key": "port",
+      "value": "8000",
+      "enabled": true
+    },
+    {
       "key": "token",
       "value": "",
       "enabled": true

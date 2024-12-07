@@ -21,10 +21,10 @@
           "raw": "{\"username\": \"testuser\", \"password\": \"testpassword\"}"
         },
         "url": {
-          "raw": "http://localhost:5000/register",
+          "raw": "http://{{url}}:{{port}}/register",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "5000",
+          "host": ["{{url}}"],
+          "port": "{{port}}",
           "path": ["register"]
         }
       },
@@ -61,10 +61,10 @@
           "raw": "{\"username\": \"testuser\", \"password\": \"testpassword\"}"
         },
         "url": {
-          "raw": "http://localhost:5000/register",
+          "raw": "http://{{url}}:{{port}}/register",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "5000",
+          "host": ["{{url}}"],
+          "port": "{{port}}",
           "path": ["register"]
         }
       },
@@ -103,10 +103,10 @@
           "raw": "{\"username\": \"\", \"password\": \"testpassword\"}"
         },
         "url": {
-          "raw": "http://localhost:5000/register",
+          "raw": "http://{{url}}:{{port}}/register",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "5000",
+          "host": ["{{url}}"],
+          "port": "{{port}}",
           "path": ["register"]
         }
       },
@@ -145,10 +145,10 @@
           "raw": "{\"username\": \"testuser2\", \"password\": \"\"}"
         },
         "url": {
-          "raw": "http://localhost:5000/register",
+          "raw": "http://{{url}}:{{port}}/register",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "5000",
+          "host": ["{{url}}"],
+          "port": "{{port}}",
           "path": ["register"]
         }
       },
@@ -187,10 +187,10 @@
           "raw": "{\"username\": \"testuser\", \"password\": \"testpassword\"}"
         },
         "url": {
-          "raw": "http://localhost:5000/login",
+          "raw": "http://{{url}}:{{port}}/login",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "5000",
+          "host": ["{{url}}"],
+          "port": "{{port}}",
           "path": ["login"]
         }
       },
@@ -223,10 +223,10 @@
           }
         ],
         "url": {
-          "raw": "http://localhost:5000/users",
+          "raw": "http://{{url}}:{{port}}/users",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "5000",
+          "host": ["{{url}}"],
+          "port": "{{port}}",
           "path": ["users"]
         }
       },
@@ -269,10 +269,10 @@
           "raw": "{\"username\": \"updateduser\", \"password\": \"updatedpassword\"}"
         },
         "url": {
-          "raw": "http://localhost:5000/users/{{userId}}",
+          "raw": "http://{{url}}:{{port}}/users/{{userId}}",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "5000",
+          "host": ["{{url}}"],
+          "port": "{{port}}",
           "path": ["users", "{{userId}}"]
         }
       },
@@ -302,10 +302,10 @@
           }
         ],
         "url": {
-          "raw": "http://localhost:5000/users/{{userId}}",
+          "raw": "http://{{url}}:{{port}}/users/{{userId}}",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "5000",
+          "host": ["{{url}}"],
+          "port": "{{port}}",
           "path": ["users", "{{userId}}"]
         }
       },
@@ -335,10 +335,10 @@
           }
         ],
         "url": {
-          "raw": "http://localhost:5000/logout",
+          "raw": "http://{{url}}:{{port}}/logout",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "5000",
+          "host": ["{{url}}"],
+          "port": "{{port}}",
           "path": ["logout"]
         }
       },
@@ -380,10 +380,10 @@
           ]
         },
         "url": {
-          "raw": "http://localhost:5000/upload",
+          "raw": "http://{{url}}:{{port}}/upload",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "5000",
+          "host": ["{{url}}"],
+          "port": "{{port}}",
           "path": ["upload"]
         }
       },

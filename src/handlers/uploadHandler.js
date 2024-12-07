@@ -40,29 +40,32 @@ const uploadImageHandler = async (request, h) => {
       }
     });
 
-    stream.on('error', (err) => {
-      console.error('Error uploading file:', err);
-      return h.response({
-        status: 'fail',
-        message: 'An error occurred while uploading the image!',
-        error: err.message
-      }).code(500);
-    });
+    return new Promise((resolve, reject) => {
+      stream.on('error', (err) => {
+        console.error('Error uploading file:', err);
+        reject(h.response({
+          status: 'fail',
+          message: 'An error occurred while uploading the image!',
+          error: err.message
+        }).code(500));
+      });
 
-    stream.on('finish', () => {
-      const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
-      return h.response({
-        status: 'success',
-        message: 'File uploaded successfully.',
-        data: {
-          fileName,
-          url: publicUrl
-        }
-      }).code(200);
-    });
+      stream.on('finish', () => {
+        const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+        resolve(h.response({
+          status: 'success',
+          message: 'File uploaded successfully.',
+          data: {
+            fileName,
+            url: publicUrl
+          }
+        }).code(200));
+      });
 
-    image.pipe(stream);
+      image.pipe(stream);
+    });
   } catch (error) {
+    console.error('Error:', error);
     return h.response({
       status: 'fail',
       message: 'An error occurred while uploading the image!',

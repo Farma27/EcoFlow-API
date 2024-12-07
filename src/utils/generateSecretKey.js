@@ -6,7 +6,7 @@ const path = require('path');
 const secretKey = crypto.randomBytes(32).toString('hex');
 
 // Define the path to the .env file
-const envFilePath = path.resolve(__dirname, '../.env');
+const envFilePath = path.resolve(__dirname, '../../.env');
 
 // Read the existing .env file content
 let envFileContent = '';

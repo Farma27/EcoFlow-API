@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs');
 const storage = require('../services/storage');
 const { bucketName, MAX_FILE_SIZE } = require('../config');
 
@@ -31,53 +30,38 @@ const uploadImageHandler = async (request, h) => {
       }).code(400);
     }
 
-    const tempDir = path.join(__dirname, '../temp');
-    if (!fs.existsSync(tempDir)) {
-      fs.mkdirSync(tempDir);
-    }
+    const bucket = storage.bucket(bucketName);
+    const fileName = `${Date.now()}-${image.hapi.filename}`;
+    const file = bucket.file(fileName);
 
-    const filePath = path.join(tempDir, image.hapi.filename);
-    const fileStream = fs.createWriteStream(filePath);
-
-    return new Promise((resolve, reject) => {
-      image.pipe(fileStream);
-
-      fileStream.on('error', (err) => {
-        reject(h.response({
-          status: 'fail',
-          message: 'Failed to save image locally!',
-          error: err.message
-        }).code(500));
-      });
-
-      fileStream.on('finish', async () => {
-        try {
-          await storage.bucket(bucketName).upload(filePath, {
-            destination: `images/${image.hapi.filename}`,
-            metadata: {
-              contentType: mimeType
-            }
-          });
-
-          fs.unlinkSync(filePath);
-
-          resolve(h.response({
-            status: 'success',
-            message: 'Image uploaded successfully!',
-            data: {
-              filename: image.hapi.filename,
-              url: `https://storage.googleapis.com/${bucketName}/images/${image.hapi.filename}`
-            }
-          }).code(200));
-        } catch (error) {
-          reject(h.response({
-            status: 'fail',
-            message: 'Failed to upload image!',
-            error: error.message
-          }).code(500));
-        }
-      });
+    const stream = file.createWriteStream({
+      metadata: {
+        contentType: mimeType
+      }
     });
+
+    stream.on('error', (err) => {
+      console.error('Error uploading file:', err);
+      return h.response({
+        status: 'fail',
+        message: 'An error occurred while uploading the image!',
+        error: err.message
+      }).code(500);
+    });
+
+    stream.on('finish', () => {
+      const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+      return h.response({
+        status: 'success',
+        message: 'File uploaded successfully.',
+        data: {
+          fileName,
+          url: publicUrl
+        }
+      }).code(200);
+    });
+
+    image.pipe(stream);
   } catch (error) {
     return h.response({
       status: 'fail',

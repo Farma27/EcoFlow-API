@@ -36,12 +36,12 @@ const userRoutes = [
   },
   {
     method: 'PUT',
-    path: '/users/{id}',
+    path: '/users/{id}/edit',
     handler: updateUserHandler
   },
   {
     method: 'DELETE',
-    path: '/users/{id}',
+    path: '/users/{id}/delete',
     handler: deleteUserHandler
   }
 ];

@@ -29,6 +29,7 @@
     "@tensorflow/tfjs-node": "^4.22.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
-    "nanoid": "^3.3.7"
+    "nanoid": "^3.3.7",
+    "pm2": "^5.4.3"
   }
 }

@@ -1,9 +1,7 @@
-const { Storage } = require('@google-cloud/storage');
 const path = require('path');
 const fs = require('fs');
+const storage = require('../services/storage');
 const { bucketName, MAX_FILE_SIZE } = require('../config');
-
-const storage = new Storage();
 
 const uploadImageHandler = async (request, h) => {
   try {
@@ -33,7 +31,12 @@ const uploadImageHandler = async (request, h) => {
       }).code(400);
     }
 
-    const filePath = path.join(__dirname, '../temp', image.hapi.filename);
+    const tempDir = path.join(__dirname, '../temp');
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir);
+    }
+
+    const filePath = path.join(tempDir, image.hapi.filename);
     const fileStream = fs.createWriteStream(filePath);
 
     return new Promise((resolve, reject) => {

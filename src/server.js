@@ -10,7 +10,7 @@ const { JWT_SECRET_KEY } = require('./config');
 
 const init = async () => {
   const server = Hapi.server({
-    port: 8080,
+    port: 8000,
     host: '0.0.0.0',
     routes: {
       cors: {

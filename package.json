@@ -4,7 +4,7 @@
   "main": "./src/server.js",
   "scripts": {
     "start": "nodemon ./src/server.js",
-    "generate-key": "node generateSecretKey.js"
+    "generate-key": "node ./src/utils/generateSecretKey.js"
   },
   "repository": {
     "type": "git",

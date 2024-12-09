@@ -133,8 +133,8 @@ You can use the provided Postman collection to test the API endpoints. Follow th
 
 1. Open Postman.
 2. Click on `Import` in the top left corner.
-3. Select the `Postman Collection.json` file from the test directory.
-4. Click on `Import` again and select the `Postman Environment.json` file from the test directory.
+3. Select the `EcoFlow API Environment.postman_environment.json` file from the test directory.
+4. Click on `Import` again and select the `EcoFlow API.postman_collection.json` file from the test directory.
 5. Select the imported environment from the environment dropdown in the top right corner.
 6. Click the Settings button then search for Location.
 7. Click Choose to choose the location of your image.

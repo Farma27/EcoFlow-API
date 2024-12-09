@@ -3,9 +3,11 @@ require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
 const Inert = require('@hapi/inert');
+const RateLimit = require('hapi-rate-limit');
 
 const userRoutes = require('./routes/userRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
+const articleRoutes = require('./routes/articleRoutes');
 const { JWT_SECRET_KEY } = require('./config');
 
 const init = async () => {
@@ -19,7 +21,23 @@ const init = async () => {
     }
   });
 
-  await server.register([Jwt, Inert]);
+  await server.register([
+    Jwt,
+    Inert,
+    {
+      plugin: RateLimit,
+      options: {
+        userLimit: 200,
+        pathLimit: false,
+        userPathLimit: false,
+        headers: true,
+        trustProxy: true,
+        userCache: {
+          expiresIn: 60 * 60 * 1000 // 1 hour
+        }
+      }
+    }
+  ]);
 
   server.auth.strategy('jwt', 'jwt', {
     keys: JWT_SECRET_KEY, 
@@ -66,7 +84,7 @@ const init = async () => {
     return h.continue;
   });
 
-  server.route([...userRoutes, ...uploadRoutes]);
+  server.route([...userRoutes, ...uploadRoutes, ...articleRoutes]);
 
   await server.start();
   console.log('Server running on %s', server.info.uri);

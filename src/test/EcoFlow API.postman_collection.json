@@ -354,7 +354,7 @@
 					"raw": "{\"title\": \"Article Title\", \"content\": \"Article content\"}"
 				},
 				"url": {
-					"raw": "http://{{url}}:{{port}}/article",
+					"raw": "http://{{url}}:{{port}}/article/create",
 					"protocol": "http",
 					"host": [
 						"{{url}}"

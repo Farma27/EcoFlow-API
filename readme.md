@@ -140,6 +140,7 @@ You can use the provided Postman collection to test the API endpoints. Follow th
 6. Click the Settings button then search for Location.
 7. Click Choose to choose the location of your image.
     [](https://imgur.com/Wy8yr64)
+8. Change the url and port in environment.
 8. Use the provided requests in the collection to test the API endpoints.
 
 ## License

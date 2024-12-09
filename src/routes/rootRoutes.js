@@ -9,6 +9,8 @@ const rootRoutes = [
             <title>Nothing to see here</title>
             <style>
               body {
+                background-color: #000;
+                color: #fff;
                 display: flex;
                 justify-content: center;
                 align-items: center;

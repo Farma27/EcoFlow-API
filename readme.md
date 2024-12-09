@@ -97,7 +97,7 @@ The server will run on ```http://localhost:8000```.
 ### Artikel
 
 - Create
-  - ```POST /article```
+  - ```POST /article/create```
   - Headers: ```Authorization: Bearer <token>```
   - Request Body: 
   ```

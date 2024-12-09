@@ -1,6 +1,6 @@
 .vscode
 node_modules
 .env
-.dockerignore
 .gitignore
+note.txt
 package-lock.json

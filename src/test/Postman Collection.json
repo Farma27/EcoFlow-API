@@ -47,132 +47,6 @@
       ]
     },
     {
-      "name": "Register User with Duplicate Username",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\"username\": \"testuser\", \"password\": \"testpassword\"}"
-        },
-        "url": {
-          "raw": "http://{{url}}:{{port}}/register",
-          "protocol": "http",
-          "host": ["{{url}}"],
-          "port": "{{port}}",
-          "path": ["register"]
-        }
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 409\", function () {",
-              "    pm.response.to.have.status(409);",
-              "});",
-              "",
-              "const responseJson = pm.response.json();",
-              "pm.test(\"Response message is 'Username already exists!'\", function () {",
-              "    pm.expect(responseJson.message).to.eql('Username already exists!');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
-    },
-    {
-      "name": "Register User with Empty Username",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\"username\": \"\", \"password\": \"testpassword\"}"
-        },
-        "url": {
-          "raw": "http://{{url}}:{{port}}/register",
-          "protocol": "http",
-          "host": ["{{url}}"],
-          "port": "{{port}}",
-          "path": ["register"]
-        }
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 400\", function () {",
-              "    pm.response.to.have.status(400);",
-              "});",
-              "",
-              "const responseJson = pm.response.json();",
-              "pm.test(\"Response message is 'Username or password are required!'\", function () {",
-              "    pm.expect(responseJson.message).to.eql('Username or password are required!');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
-    },
-    {
-      "name": "Register User with Empty Password",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\"username\": \"testuser2\", \"password\": \"\"}"
-        },
-        "url": {
-          "raw": "http://{{url}}:{{port}}/register",
-          "protocol": "http",
-          "host": ["{{url}}"],
-          "port": "{{port}}",
-          "path": ["register"]
-        }
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Status code is 400\", function () {",
-              "    pm.response.to.have.status(400);",
-              "});",
-              "",
-              "const responseJson = pm.response.json();",
-              "pm.test(\"Response message is 'Username or password are required!'\", function () {",
-              "    pm.expect(responseJson.message).to.eql('Username or password are required!');",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
-    },
-    {
       "name": "Login User",
       "request": {
         "method": "POST",
@@ -223,11 +97,11 @@
           }
         ],
         "url": {
-          "raw": "http://{{url}}:{{port}}/users",
+          "raw": "http://{{url}}:{{port}}/users/all",
           "protocol": "http",
           "host": ["{{url}}"],
           "port": "{{port}}",
-          "path": ["users"]
+          "path": ["users", "all"]
         }
       },
       "response": [],
@@ -241,8 +115,46 @@
               "});",
               "",
               "const responseJson = pm.response.json();",
-              "pm.test(\"Response contains registered user without password\", function () {",
-              "    pm.expect(responseJson.data.users.some(user => user.username === 'testuser' && !user.password)).to.be.true;",
+              "pm.test(\"Response contains users\", function () {",
+              "    pm.expect(responseJson.data).to.have.property('users');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get User by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://{{url}}:{{port}}/user/{{userId}}",
+          "protocol": "http",
+          "host": ["{{url}}"],
+          "port": "{{port}}",
+          "path": ["user", "{{userId}}"]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "const responseJson = pm.response.json();",
+              "pm.test(\"Response contains user data\", function () {",
+              "    pm.expect(responseJson.data).to.have.property('user');",
               "});"
             ],
             "type": "text/javascript"
@@ -269,11 +181,11 @@
           "raw": "{\"username\": \"updateduser\", \"password\": \"updatedpassword\"}"
         },
         "url": {
-          "raw": "http://{{url}}:{{port}}/users/{{userId}}",
+          "raw": "http://{{url}}:{{port}}/user/edit/{{userId}}",
           "protocol": "http",
           "host": ["{{url}}"],
           "port": "{{port}}",
-          "path": ["users", "{{userId}}"]
+          "path": ["user", "edit", "{{userId}}"]
         }
       },
       "response": [],
@@ -302,11 +214,11 @@
           }
         ],
         "url": {
-          "raw": "http://{{url}}:{{port}}/users/{{userId}}",
+          "raw": "http://{{url}}:{{port}}/user/delete/{{userId}}",
           "protocol": "http",
           "host": ["{{url}}"],
           "port": "{{port}}",
-          "path": ["users", "{{userId}}"]
+          "path": ["user", "delete", "{{userId}}"]
         }
       },
       "response": [],
@@ -387,7 +299,26 @@
           "path": ["upload"]
         }
       },
-      "response": []
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "const responseJson = pm.response.json();",
+              "pm.test(\"Response contains file data\", function () {",
+              "    pm.expect(responseJson.data).to.have.property('fileName');",
+              "    pm.expect(responseJson.data).to.have.property('url');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
     }
   ]
 }

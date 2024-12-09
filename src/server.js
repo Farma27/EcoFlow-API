@@ -8,7 +8,8 @@ const RateLimit = require('hapi-rate-limit');
 const userRoutes = require('./routes/userRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const articleRoutes = require('./routes/articleRoutes');
-const { JWT_SECRET_KEY } = require('./config');
+const rootRoutes = require('./routes/rootRoutes');
+const { JWT_SECRET_KEY, rateLimit } = require('./config');
 
 const init = async () => {
   const server = Hapi.server({
@@ -26,16 +27,7 @@ const init = async () => {
     Inert,
     {
       plugin: RateLimit,
-      options: {
-        userLimit: 200,
-        pathLimit: false,
-        userPathLimit: false,
-        headers: true,
-        trustProxy: true,
-        userCache: {
-          expiresIn: 60 * 60 * 1000 // 1 hour
-        }
-      }
+      options: rateLimit
     }
   ]);
 
@@ -84,7 +76,7 @@ const init = async () => {
     return h.continue;
   });
 
-  server.route([...userRoutes, ...uploadRoutes, ...articleRoutes]);
+  server.route([...rootRoutes, ...userRoutes, ...uploadRoutes, ...articleRoutes]);
 
   await server.start();
   console.log('Server running on %s', server.info.uri);

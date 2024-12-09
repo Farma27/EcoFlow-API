@@ -9,7 +9,7 @@ const {
 const articleRoutes = [
   {
     method: 'POST',
-    path: '/article',
+    path: '/article/create',
     options: {
       auth: 'jwt'
     },

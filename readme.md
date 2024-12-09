@@ -123,16 +123,24 @@ The server will run on ```http://localhost:8000```.
   - ```DELETE /article/delete/{id}```
   - Headers: ```Authorization: Bearer <token>```
 
+## Rate Limit
+
+Each user is limited to 200 requests per hour. If the limit is exceeded, the server will respond with a 429 Too Many Requests status code.
+
 ## Testing
 
 You can use the provided Postman collection to test the API endpoints. Follow these steps:
 
 1. Open Postman.
 2. Click on `Import` in the top left corner.
-3. Select the `Postman Collection.json` file from the [test](http://_vscodecontentref_/13) directory.
-4. Click on `Import` again and select the `Postman Environment.json` file from the [test](http://_vscodecontentref_/14) directory.
+    [] (https://imgur.com/I7vftCo)
+3. Select the `Postman Collection.json` file from the test directory.
+4. Click on `Import` again and select the `Postman Environment.json` file from the test directory.
 5. Select the imported environment from the environment dropdown in the top right corner.
-6. Use the provided requests in the collection to test the API endpoints.
+6. Click the Settings button then search for Location.
+7. Click Choose to choose the location of your image.
+    [](https://imgur.com/Wy8yr64)
+8. Use the provided requests in the collection to test the API endpoints.
 
 ## License
 

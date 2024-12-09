@@ -4,30 +4,6 @@
 
 This project is an API service built using Node.js, Hapi.js. It provides user authentication, image upload functionality, and integrates with Google Cloud Firestore and Google Cloud Storage.
 
-## Project Structure
-
-├── src
-│   ├── handlers
-│   │   │   uploadHandler.js  
-│   │   └── userHandler.js
-│   ├── routes
-│   │   │   uploadRoutes.js
-│   │   └── userRoutes.js
-│   ├── Services
-│   │   │   firestore.js
-│   │   └── storage.js
-│   ├── test
-│   │   │   Postman Collection.json
-│   │   └── Postman Environment.json
-│   ├── utils
-│   │   └── generateSecretKey.js
-│   ├── config.js
-│   └── server.js
-├── .env
-└── package-lock.json
-├── package.json
-└── readme.md
-
 ## Setup
 
 1. Clone the repository:
@@ -118,9 +94,7 @@ The server will run on ```http://localhost:8000```.
   - Headers: ```Authorization: Bearer <token>```
   - Form Data: ```image: <file>```
 
-### Artikel
-
-
+<!-- ### Artikel -->
 
 ## Testing
 

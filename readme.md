@@ -94,7 +94,34 @@ The server will run on ```http://localhost:8000```.
   - Headers: ```Authorization: Bearer <token>```
   - Form Data: ```image: <file>```
 
-<!-- ### Artikel -->
+### Artikel
+
+- Create
+  - ```POST /article```
+  - Headers: ```Authorization: Bearer <token>```
+  - Request Body: 
+  ```
+  {
+    "title": "Article Title",
+    "content": "Lorem Ipsum",
+  }
+  ```
+- Edit 
+  - ```PUT /article/edit/{id}```
+  - Headers: ```Authorization: Bearer <token>```
+  - Request Body: 
+  ```
+  {
+    "title": "Updated Title",
+    content: "Lorem Ipsum",
+  }
+- Get All Article
+  - ```GET /articles/all```
+- Get Article By Id
+  - ```GET /article/{id}```
+- Delete
+  - ```DELETE /article/delete/{id}```
+  - Headers: ```Authorization: Bearer <token>```
 
 ## Testing
 

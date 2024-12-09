@@ -1,9 +1,16 @@
-const path = require('path');
 const storage = require('../services/storage');
 const { bucketName, MAX_FILE_SIZE } = require('../config');
 
 const uploadImageHandler = async (request, h) => {
   try {
+    const { user } = request.auth.credentials;
+    if (!user) {
+      return h.response({
+        status: 'fail',
+        message: 'Action unauthorized! Please login or register!'
+      }).code(401);
+    }
+
     const { image } = request.payload;
 
     if (!image) {

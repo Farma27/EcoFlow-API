@@ -33,9 +33,12 @@ const init = async () => {
       timeSkewSec: 15
     },
     validate: (artifacts, request, h) => {
+      if (!artifacts.decoded.payload.user) {
+        return { isValid: false };
+      }
       return {
         isValid: true,
-        credentials: { user: artifacts.decoded.payload }
+        credentials: { user: artifacts.decoded.payload.user }
       };
     }
   });
@@ -56,7 +59,7 @@ const init = async () => {
       // Customize error response
       return h.response({
         status: 'fail',
-        message: errorMessage,
+        message: errorMessage === 'Invalid token structure' ? 'Action unauthorized! Please login or register!' : errorMessage,
         error: error.data || null
       }).code(statusCode);
     }

@@ -53,6 +53,14 @@ const registerHandler = async (request, h) => {
 
 const getAllUsers = async (request, h) => {
   try {
+    const { user } = request.auth.credentials;
+    if (!user) {
+      return h.response({
+        status: 'fail',
+        message: 'Action unauthorized! Please login or register!'
+      }).code(401);
+    }
+
     const usersSnapshot = await firestore.collection('users').get();
     const users = usersSnapshot.docs.map(doc => {
       const user = doc.data();
@@ -70,6 +78,45 @@ const getAllUsers = async (request, h) => {
     return h.response({
       status: 'fail',
       message: 'Failed to fetch users',
+      error: error.message
+    }).code(500);
+  }
+};
+
+const getUserByIdHandler = async (request, h) => {
+  try {
+    const { user } = request.auth.credentials;
+    if (!user) {
+      return h.response({
+        status: 'fail',
+        message: 'Action unauthorized! Please login or register!'
+      }).code(401);
+    }
+
+    const { id } = request.params;
+    const userRef = firestore.collection('users').doc(id);
+    const userDoc = await userRef.get();
+
+    if (!userDoc.exists) {
+      return h.response({
+        status: 'fail',
+        message: 'User not found'
+      }).code(404);
+    }
+
+    const userData = userDoc.data();
+    delete userData.password; 
+
+    return h.response({
+      status: 'success',
+      data: {
+        user: userData
+      }
+    }).code(200);
+  } catch (error) {
+    return h.response({
+      status: 'fail',
+      message: 'Failed to fetch user',
       error: error.message
     }).code(500);
   }
@@ -130,6 +177,14 @@ const loginHandler = async (request, h) => {
 };
 
 const logoutHandler = async (request, h) => {
+  const { user } = request.auth.credentials;
+  if (!user) {
+    return h.response({
+      status: 'fail',
+      message: 'Action unauthorized! Please login or register!'
+    }).code(401);
+  }
+
   return h.response({
     status: 'success',
     message: 'Logout successful'
@@ -138,6 +193,14 @@ const logoutHandler = async (request, h) => {
 
 const updateUserHandler = async (request, h) => {
   try {
+    const { user } = request.auth.credentials;
+    if (!user) {
+      return h.response({
+        status: 'fail',
+        message: 'Action unauthorized! Please login or register!'
+      }).code(401);
+    }
+
     const { id } = request.params;
     const { username, password } = request.payload;
     const updatedAt = new Date().toISOString();
@@ -175,6 +238,14 @@ const updateUserHandler = async (request, h) => {
 
 const deleteUserHandler = async (request, h) => {
   try {
+    const { user } = request.auth.credentials;
+    if (!user) {
+      return h.response({
+        status: 'fail',
+        message: 'Action unauthorized! Please login or register!'
+      }).code(401);
+    }
+
     const { id } = request.params;
 
     const userRef = firestore.collection('users').doc(id);
@@ -202,4 +273,12 @@ const deleteUserHandler = async (request, h) => {
   }
 };
 
-module.exports = { registerHandler, getAllUsers, loginHandler, logoutHandler, updateUserHandler, deleteUserHandler };
+module.exports = {
+  registerHandler,
+  getAllUsers,
+  getUserByIdHandler,
+  loginHandler,
+  logoutHandler,
+  updateUserHandler,
+  deleteUserHandler
+};

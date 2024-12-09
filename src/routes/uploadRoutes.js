@@ -5,7 +5,7 @@ const uploadRoutes = [
     method: 'POST',
     path: '/upload',
     options: {
-      auth: false,
+      auth: 'jwt',
       payload: {
         output: 'stream',
         parse: true,

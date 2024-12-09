@@ -4,7 +4,8 @@ const {
   loginHandler,
   logoutHandler,
   updateUserHandler,
-  deleteUserHandler
+  deleteUserHandler,
+  getUserByIdHandler
 } = require('../handlers/userHandler');
 
 const userRoutes = [
@@ -18,8 +19,19 @@ const userRoutes = [
   },
   {
     method: 'GET',
-    path: '/users',
+    path: '/users/all',
+    options: {
+      auth: 'jwt'
+    },
     handler: getAllUsers
+  },
+  {
+    method: 'GET',
+    path: '/user/{id}',
+    options: {
+      auth: 'jwt'
+    },
+    handler: getUserByIdHandler
   },
   {
     method: 'POST',
@@ -32,16 +44,25 @@ const userRoutes = [
   {
     method: 'POST',
     path: '/logout',
+    options: {
+      auth: 'jwt'
+    },
     handler: logoutHandler
   },
   {
     method: 'PUT',
-    path: '/users/{id}/edit',
+    path: '/user/edit/{id}',
+    options: {
+      auth: 'jwt'
+    },
     handler: updateUserHandler
   },
   {
     method: 'DELETE',
-    path: '/users/{id}/delete',
+    path: '/user/delete/{id}',
+    options: {
+      auth: 'jwt'
+    },
     handler: deleteUserHandler
   }
 ];

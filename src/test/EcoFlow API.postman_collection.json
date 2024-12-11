@@ -341,17 +341,29 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
 						"key": "Authorization",
 						"value": "Bearer {{token}}"
 					}
 				],
 				"body": {
-					"mode": "raw",
-					"raw": "{\"title\": \"Article Title\", \"content\": \"Article content\"}"
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Article Title",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "Article content",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/path/to/your/image.jpg"
+						}
+					]
 				},
 				"url": {
 					"raw": "http://{{url}}:{{port}}/article/create",
@@ -361,7 +373,8 @@
 					],
 					"port": "{{port}}",
 					"path": [
-						"article"
+						"article",
+						"create"
 					]
 				}
 			},
@@ -386,17 +399,29 @@
 				"method": "PUT",
 				"header": [
 					{
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
 						"key": "Authorization",
 						"value": "Bearer {{token}}"
 					}
 				],
 				"body": {
-					"mode": "raw",
-					"raw": "{\"title\": \"Updated Title\", \"content\": \"Updated content\"}"
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Updated Title",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "Updated content",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/path/to/your/image.jpg"
+						}
+					]
 				},
 				"url": {
 					"raw": "http://{{url}}:{{port}}/article/edit/{{articleId}}",

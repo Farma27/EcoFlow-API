@@ -5,10 +5,12 @@ const Jwt = require('@hapi/jwt');
 const Inert = require('@hapi/inert');
 const RateLimit = require('hapi-rate-limit');
 
+const rootRoutes = require('./routes/rootRoutes');
 const userRoutes = require('./routes/userRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const articleRoutes = require('./routes/articleRoutes');
-const rootRoutes = require('./routes/rootRoutes');
+const predictionRoutes = require('./routes/predictionRoutes');
+
 const { JWT_SECRET_KEY, rateLimit } = require('./config');
 
 const init = async () => {
@@ -32,7 +34,7 @@ const init = async () => {
   ]);
 
   server.auth.strategy('jwt', 'jwt', {
-    keys: JWT_SECRET_KEY, 
+    keys: JWT_SECRET_KEY,
     verify: {
       aud: false,
       iss: false,
@@ -76,7 +78,7 @@ const init = async () => {
     return h.continue;
   });
 
-  server.route([...rootRoutes, ...userRoutes, ...uploadRoutes, ...articleRoutes]);
+  server.route([...rootRoutes, ...userRoutes, ...uploadRoutes, ...articleRoutes, ...predictionRoutes]);
 
   await server.start();
   console.log('Server running on %s', server.info.uri);

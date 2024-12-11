@@ -11,7 +11,13 @@ const articleRoutes = [
     method: 'POST',
     path: '/article/create',
     options: {
-      auth: 'jwt'
+      auth: 'jwt',
+      payload: {
+        output: 'stream',
+        parse: true,
+        allow: 'multipart/form-data',
+        multipart: true
+      }
     },
     handler: addArticleHandler
   },
@@ -19,7 +25,13 @@ const articleRoutes = [
     method: 'PUT',
     path: '/article/edit/{id}',
     options: {
-      auth: 'jwt'
+      auth: 'jwt',
+      payload: {
+        output: 'stream',
+        parse: true,
+        allow: 'multipart/form-data',
+        multipart: true
+      }
     },
     handler: editArticleHandler
   },

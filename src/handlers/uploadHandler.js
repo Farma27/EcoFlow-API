@@ -20,13 +20,13 @@ const uploadImageHandler = async (request, h) => {
       }).code(400);
     }
 
-    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
     const mimeType = image.hapi.headers['content-type'];
 
     if (!allowedMimeTypes.includes(mimeType)) {
       return h.response({
         status: 'fail',
-        message: 'Invalid file type! Only JPEG, PNG, and GIF are allowed.'
+        message: 'Invalid file type! Only JPEG, PNG, JPG, and GIF are allowed.'
       }).code(400);
     }
 

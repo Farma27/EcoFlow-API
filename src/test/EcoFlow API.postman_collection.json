@@ -566,37 +566,65 @@
 			},
 			"response": []
 		},
-		{
-      "name": "Predict Waste Type",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "formdata",
-          "formdata": [
-            {
-              "key": "file",
-              "type": "file",
-              "src": "<path_to_your_sample_image>"
-            }
-          ]
-        },
-        "url": {
-          "raw": "http://{{url}}:{{port}}/predict",
-          "protocol": "http",
-          "host": "{{url}}",
-          "port": "{{port}}",
-          "path": ["predict"]
-        }
-      },
-      "response": []
-    },
+				{
+			"name": "Predict Waste Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const responseJson = pm.response.json();",
+							"pm.test(\"Response contains predictions\", function () {",
+							"    pm.expect(responseJson).to.have.property('predictions');",
+							"    pm.expect(responseJson.predictions).to.be.an('array');",
+							"    pm.expect(responseJson.predictions).to.have.lengthOf(2);",
+							"    pm.expect(responseJson.predictions[0]).to.have.property('model');",
+							"    pm.expect(responseJson.predictions[0]).to.have.property('predictedClass');",
+							"    pm.expect(responseJson.predictions[1]).to.have.property('model');",
+							"    pm.expect(responseJson.predictions[1]).to.have.property('predictedClass');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "<path_to_your_sample_image>"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{url}}:{{port}}/predict",
+					"protocol": "http",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"predict"
+					]
+				}
+			},
+			"response": []
+		},
 		{
 			"name": "Logout User",
 			"event": [

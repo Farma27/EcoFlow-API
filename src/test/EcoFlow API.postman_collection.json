@@ -567,6 +567,37 @@
 			"response": []
 		},
 		{
+      "name": "Predict Waste Type",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "<path_to_your_sample_image>"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://{{url}}:{{port}}/predict",
+          "protocol": "http",
+          "host": "{{url}}",
+          "port": "{{port}}",
+          "path": ["predict"]
+        }
+      },
+      "response": []
+    },
+		{
 			"name": "Logout User",
 			"event": [
 				{

@@ -27,6 +27,7 @@
     "@hapi/hapi": "^21.3.12",
     "@hapi/inert": "^7.1.0",
     "@hapi/jwt": "^3.2.0",
+    "@tensorflow/tfjs-node": "^4.22.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "hapi-rate-limit": "^7.1.0",

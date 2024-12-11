@@ -13,5 +13,7 @@ module.exports = {
     userCache: {
       expiresIn: 60 * 60 * 1000 // 1 hour
     }
-  }
+  },
+  MODEL_URL_1: process.env.MODEL_URL_1,
+  MODEL_URL_2: process.env.MODEL_URL_2
 };
